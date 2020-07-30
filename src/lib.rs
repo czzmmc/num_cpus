@@ -39,8 +39,8 @@
 #[macro_use]
 extern crate sgx_tstd as std;
 
-#[cfg(not(windows))]
-extern crate libc;
+// #[cfg(not(windows))]
+// extern crate libc;
 
 #[cfg(target_os = "hermit")]
 extern crate hermit_abi;
