@@ -37,7 +37,7 @@ macro_rules! some {
 pub fn get_num_cpus() -> usize {
     match cgroups_num_cpus() {
         Some(n) => n,
-        None => ocall_logical_cpus(),
+        None => unsafe { ocall_logical_cpus() },
     }
 }
 
@@ -137,7 +137,7 @@ fn init_cgroups() {
                 return;
             }
 
-            let logical = ocall_logical_cpus();
+            let logical = unsafe { ocall_logical_cpus() };
             let count = ::std::cmp::min(quota, logical);
 
             CGROUPS_CPUS.store(count, Ordering::SeqCst);
