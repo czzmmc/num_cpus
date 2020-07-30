@@ -12,7 +12,7 @@ categories = ["hardware-support"]
 readme = "README.md"
 
 [dependencies]
-libc = { git = "https://github.com/mesalock-linux/libc-sgx" }
+# libc = { git = "https://github.com/mesalock-linux/libc-sgx" }
 sgx_tstd = { rev = "v1.1.2", git = "https://github.com/apache/teaclave-sgx-sdk", optional = true }
 
 # [target.'cfg(all(any(target_arch = "x86_64", target_arch = "aarch64"), target_os = "hermit"))'.dependencies]

@@ -7,7 +7,11 @@ use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Once;
 
-use libc;
+extern "C" {
+    pub fn ocall_logical_cpus ( ret_val : *mut sgx_status_t ) -> usize;
+    }
+
+// use libc;
 
 macro_rules! debug {
     ($($args:expr),*) => ({
@@ -33,29 +37,29 @@ macro_rules! some {
 pub fn get_num_cpus() -> usize {
     match cgroups_num_cpus() {
         Some(n) => n,
-        None => logical_cpus(),
+        None => ocall_logical_cpus(),
     }
 }
 
-fn logical_cpus() -> usize {
-    let mut set: libc::cpu_set_t = unsafe { mem::zeroed() };
-    if unsafe { libc::sched_getaffinity(0, mem::size_of::<libc::cpu_set_t>(), &mut set) } == 0 {
-        let mut count: u32 = 0;
-        for i in 0..libc::CPU_SETSIZE as usize {
-            if unsafe { libc::CPU_ISSET(i, &set) } {
-                count += 1
-            }
-        }
-        count as usize
-    } else {
-        let cpus = unsafe { libc::sysconf(libc::_SC_NPROCESSORS_ONLN) };
-        if cpus < 1 {
-            1
-        } else {
-            cpus as usize
-        }
-    }
-}
+// fn logical_cpus() -> usize {
+//     let mut set: libc::cpu_set_t = unsafe { mem::zeroed() };
+//     if unsafe { libc::sched_getaffinity(0, mem::size_of::<libc::cpu_set_t>(), &mut set) } == 0 {
+//         let mut count: u32 = 0;
+//         for i in 0..libc::CPU_SETSIZE as usize {
+//             if unsafe { libc::CPU_ISSET(i, &set) } {
+//                 count += 1
+//             }
+//         }
+//         count as usize
+//     } else {
+//         let cpus = unsafe { libc::sysconf(libc::_SC_NPROCESSORS_ONLN) };
+//         if cpus < 1 {
+//             1
+//         } else {
+//             cpus as usize
+//         }
+//     }
+// }
 
 pub fn get_num_physical_cpus() -> usize {
     let file = match File::open("/proc/cpuinfo") {
