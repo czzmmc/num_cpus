@@ -46,7 +46,6 @@ pub fn get_num_cpus() -> usize {
             let res = unsafe { ocall_logical_cpus(
                 &mut rt as *mut sgx_status_t,
                 &mut num_cpus as *mut usize) };
-            println!("num_cpus: {:?}", num_cpus);
             num_cpus
         },
     }
