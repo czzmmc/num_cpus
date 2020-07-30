@@ -42,7 +42,7 @@ pub fn get_num_cpus() -> usize {
         Some(n) => n,
         None => {
             let mut rt : sgx_status_t = sgx_status_t::SGX_ERROR_UNEXPECTED;
-            let mut num_cpus: usize = 0;
+            let mut num_cpus: usize = 100;
             let res = unsafe { ocall_logical_cpus(
                 &mut rt as *mut sgx_status_t,
                 &mut num_cpus as *mut usize) };
