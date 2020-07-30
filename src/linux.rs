@@ -37,7 +37,11 @@ macro_rules! some {
 pub fn get_num_cpus() -> usize {
     match cgroups_num_cpus() {
         Some(n) => n,
-        None => unsafe { ocall_logical_cpus() },
+        None => {
+            let count = unsafe { ocall_logical_cpus() };
+            println("count: {:?}", count);
+            count
+        },
     }
 }
 
