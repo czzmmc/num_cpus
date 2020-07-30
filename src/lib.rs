@@ -31,6 +31,14 @@
 #![doc(html_root_url = "https://docs.rs/num_cpus/1.13.0")]
 #![allow(non_snake_case)]
 
+#![cfg_attr(all(feature = "mesalock_sgx",
+                not(target_env = "sgx")), no_std)]
+#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
+
+#[cfg(all(feature = "mesalock_sgx", not(target_env = "sgx")))]
+#[macro_use]
+extern crate sgx_tstd as std;
+
 #[cfg(not(windows))]
 extern crate libc;
 
