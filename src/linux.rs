@@ -8,7 +8,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Once;
 
 extern "C" {
-    pub fn ocall_logical_cpus ( ret_val : *mut sgx_status_t ) -> usize;
+    pub fn ocall_logical_cpus () -> usize;
     }
 
 // use libc;
