@@ -1,6 +1,6 @@
 use std::prelude::v1::*;
 use std::collections::HashMap;
-use std::fs::File;
+use std::untrusted::fs::File;
 use std::io::{BufRead, BufReader, Read};
 use std::mem;
 use std::path::{Path, PathBuf};
