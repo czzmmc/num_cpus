@@ -6,6 +6,8 @@ use std::mem;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Once;
+
+extern crate sgx_types;
 use sgx_types::*;
 
 extern "C" {
@@ -41,8 +43,11 @@ pub fn get_num_cpus() -> usize {
     match cgroups_num_cpus() {
         Some(n) => n,
         None => {
-            let mut num_cpus: usize = 0
-            let res = unsafe { ocall_logical_cpus(&mut num_cpus as *mut usize) };
+            let mut rt : sgx_status_t = sgx_status_t::SGX_ERROR_UNEXPECTED;
+            let mut num_cpus: usize = 0;
+            let res = unsafe { ocall_logical_cpus(
+                &mut rt as *mut sgx_status_t,
+                &mut num_cpus as *mut usize) };
             println!("num_cpus: {:?}", num_cpus);
             count
         },
@@ -145,8 +150,11 @@ fn init_cgroups() {
                 return;
             }
 
-            let mut logical: usize = 0
-            let res = unsafe { ocall_logical_cpus(&mut logical as *mut usize) };
+            let mut rt : sgx_status_t = sgx_status_t::SGX_ERROR_UNEXPECTED;
+            let mut logical: usize = 0;
+            let res = unsafe { ocall_logical_cpus(
+                &mut rt as *mut sgx_status_t,
+                &mut logical as *mut usize) };
             let count = ::std::cmp::min(quota, logical);
 
             CGROUPS_CPUS.store(count, Ordering::SeqCst);
