@@ -137,7 +137,7 @@ fn init_cgroups() {
                 return;
             }
 
-            let logical = logical_cpus();
+            let logical = ocall_logical_cpus();
             let count = ::std::cmp::min(quota, logical);
 
             CGROUPS_CPUS.store(count, Ordering::SeqCst);
