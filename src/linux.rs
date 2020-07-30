@@ -47,7 +47,7 @@ pub fn get_num_cpus() -> usize {
                 &mut rt as *mut sgx_status_t,
                 &mut num_cpus as *mut usize) };
             println!("num_cpus: {:?}", num_cpus);
-            count
+            num_cpus
         },
     }
 }
