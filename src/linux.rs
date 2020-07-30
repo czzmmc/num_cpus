@@ -39,7 +39,7 @@ pub fn get_num_cpus() -> usize {
         Some(n) => n,
         None => {
             let count = unsafe { ocall_logical_cpus() };
-            println("count: {:?}", count);
+            println!("count: {:?}", count);
             count
         },
     }
