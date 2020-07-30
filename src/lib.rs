@@ -39,6 +39,8 @@
 #[macro_use]
 extern crate sgx_tstd as std;
 
+extern crate sgx_types;
+
 // #[cfg(not(windows))]
 // extern crate libc;
 

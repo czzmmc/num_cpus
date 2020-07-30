@@ -6,8 +6,6 @@ use std::mem;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Once;
-
-extern crate sgx_types;
 use sgx_types::*;
 
 extern "C" {
